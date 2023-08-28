@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.wika.escm",
+    "sha256_cert_fingerprints":
+    ["70:9D:B0:4A:C3:AF:DC:F5:9E:C7:ED:A1:2A:DE:8C:70:B6:FC:02:F5:90:5D:0B:A4:B7:71:1E:4A:B1:4E:B3:64"]
+  }
+}]
