@@ -9,7 +9,7 @@ function user_detail($connection, $id)
         return $query;
     } catch (\Throwable $th) {
         //throw $th;
-        throw new Exception("Error Processing Request", 1);
+        throw new Exception($th->getMessage(), 1);
     }
 }
 
@@ -34,7 +34,7 @@ function arr_report_product_borrow($connection, $limit = '')
         return $arr_query_report_product_borrow;
     } catch (\Throwable $th) {
         //throw $th;
-        throw new Exception("Error Processing Request", 1);
+        throw new Exception($th->getMessage(), 1);
     }
 }
 
@@ -60,6 +60,6 @@ function arr_report_users_borrow($connection, $limit = '')
         return $arr_query_report_users_borrow;
     } catch (\Throwable $th) {
         //throw $th;
-        throw new Exception("Error Processing Request", 1);
+        throw new Exception($th->getMessage(), 1);
     }
 }
