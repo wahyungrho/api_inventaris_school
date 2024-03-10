@@ -4,7 +4,7 @@ function user_detail($connection, $id)
 {
     try {
         //code...
-        $query = $connection->query("SELECT users.*, roles.name as roleName, school.name  as schoolName FROM users LEFT JOIN roles ON users.roleID = roles.id LEFT JOIN school ON users.schoolID = school.id  WHERE users.id = '$id'");
+        $query = $connection->query("SELECT users.*, roles.name as roleName, staff.npsn, student.nisn, class.name as className FROM users LEFT JOIN roles ON users.role_id = roles.id LEFT JOIN staff ON users.id = staff.user_id LEFT JOIN student ON users.id = student.user_id LEFT JOIN class ON student.class_id = class.id  WHERE users.id = '$id'");
 
         return $query;
     } catch (\Throwable $th) {
@@ -44,9 +44,9 @@ function arr_report_users_borrow($connection, $limit = '')
     try {
         //code...
         if ($limit != '') {
-            $query_report_users_borrow_list = $connection->query("SELECT users.id as user_id , orders.id as order_id , users.name, school.name as schoolName, SUM(orders.quantity) as total FROM orders LEFT JOIN users ON orders.userID = users.id LEFT JOIN school ON users.schoolID = school.id WHERE orders.statusID = 1 OR orders.statusID = 2 GROUP BY users.id ORDER BY total DESC LIMIT $limit");
+            $query_report_users_borrow_list = $connection->query("SELECT users.id as user_id , orders.id as order_id , users.name, a.name as className, SUM(orders.quantity) as total FROM orders LEFT JOIN users ON orders.userID = users.id LEFT JOIN student ON users.id = student.user_id LEFT JOIN class a ON a.id = student.class_id WHERE orders.statusID = 1 OR orders.statusID = 2 GROUP BY users.id ORDER BY total DESC LIMIT $limit");
         } else {
-            $query_report_users_borrow_list = $connection->query("SELECT users.id as user_id , orders.id as order_id , users.name, school.name as schoolName, SUM(orders.quantity) as total FROM orders LEFT JOIN users ON orders.userID = users.id LEFT JOIN school ON users.schoolID = school.id WHERE orders.statusID = 1 OR orders.statusID = 2 GROUP BY users.id ORDER BY total DESC");
+            $query_report_users_borrow_list = $connection->query("SELECT users.id as user_id , orders.id as order_id , users.name, a.name as className, SUM(orders.quantity) as total FROM orders LEFT JOIN users ON orders.userID = users.id LEFT JOIN student ON users.id = student.user_id LEFT JOIN class a ON a.id = student.class_id WHERE orders.statusID = 1 OR orders.statusID = 2 GROUP BY users.id ORDER BY total DESC");
         }
 
 
@@ -62,4 +62,17 @@ function arr_report_users_borrow($connection, $limit = '')
         //throw $th;
         throw new Exception($th->getMessage(), 1);
     }
+}
+
+function get_role_name($connection, $userID)
+{
+    $roleName           = '';
+
+    $users            = $connection->query("SELECT roles.name FROM roles LEFT JOIN users ON users.role_id = roles.id WHERE users.id = '$userID'");
+    if ($users->num_rows > 0) {
+        $user           = $users->fetch_assoc();
+        $roleName        = $user['name'];
+    }
+
+    return $roleName;
 }

@@ -13,23 +13,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ($cek_user_result) {
     # code...
     $id = $cek_user_result['id'];
-    $login         = $connection->query("SELECT users.*, roles.name as roleName, school.name  as schoolName FROM users LEFT JOIN roles ON users.roleID = roles.id LEFT JOIN school ON users.schoolID = school.id WHERE users.id = '$id' && password = '$password'");
-    
+    $login         = $connection->query("SELECT users.*, roles.name as roleName FROM users LEFT JOIN roles ON users.role_id = roles.id  WHERE users.id = '$id' && password = '$password'");
+
     if ($login->num_rows > 0) {
       # code...
       $user = $login->fetch_assoc();
       echo response('success', [
         'id' => $user['id'],
-        'nip' => $user['nip'],
         'name' => $user['name'],
         'phone' => $user['phone'],
         'email' => $user['email'],
         'status' => $user['status'],
         'createdAt' => $user['createdAt'],
-        'roleID' => $user['roleID'],
-        'roleName' => $user['roleName'],
-        'schoolID' => $user['schoolID'],
-        'schoolName' => $user['schoolName']
+        'roleID' => $user['role_id'],
+        'roleName' => $user['roleName']
       ]);
     } else {
       echo response('error', 'Maaf, Mohon periksa kembali password anda');

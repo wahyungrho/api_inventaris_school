@@ -2,17 +2,14 @@
 
 require '../../helpers/config.php';
 
-$query = $connection->query('SELECT * FROM school');
+$query = $connection->query('SELECT * FROM class');
 $result = [];
 
 foreach ($query as $key => $school) {
   # code...
   $data = [
     'id' => $school['id'],
-    'name' => $school['name'],
-    'phone' => $school['phone'],
-    'email' => $school['email'],
-    'address' => $school['address'],
+    'name' => $school['name']
   ];
 
   array_push($result, $data);

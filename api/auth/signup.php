@@ -9,7 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $phone = isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : "";
   $email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : "";
   $password = isset($_POST['password']) ? md5($_POST['password']) : "";
-  $school = isset($_POST['school']) ? (int)htmlspecialchars($_POST['school']) : "";
+  $class = isset($_POST['class']) ? (int)htmlspecialchars($_POST['class']) : "";
+  $index = isset($_POST['index']) ? (int)htmlspecialchars($_POST['index']) : "";
+  $role_id = $index == 0 || $index == '0' ? 2 : 3;
 
   $cek_user        = $connection->query("SELECT * FROM users WHERE phone='$phone' || email='$email'");
   $cek_user_result = $cek_user->fetch_array();
@@ -21,7 +23,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
       //code...
       $connection->begin_transaction();
-      $insert         = $connection->query("INSERT INTO users (nip, name, phone, email, password, status, createdAt, roleID, schoolID)  VALUE('$nip', '$name', '$phone', '$email', '$password', 'AKTIF', NOW(), 2, $school)");
+      $insert         = $connection->query("INSERT INTO users (name, phone, email, password, status, createdAt, role_id)  VALUE( '$name', '$phone', '$email', '$password', 'AKTIF', NOW(), $role_id)");
+
+      $last_id = $connection->insert_id;
+
+      if ($index == 0 || $index == '0') {
+        $connection->query("INSERT INTO staff (user_id, npsn) VALUES ($last_id, '$nip')");
+      }
+
+      if ($index == 1 || $index == '1') {
+        $connection->query("INSERT INTO student (user_id, nisn, class_id) VALUES ($last_id, '$nip', '$class')");
+      }
+
       $connection->commit();
       echo response('success', 'Registrasi berhasil, silahkan login');
     } catch (\Throwable $th) {

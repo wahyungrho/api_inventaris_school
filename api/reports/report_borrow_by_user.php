@@ -10,7 +10,7 @@ try {
     if ($id != '') {
         $query = user_detail($connection, $id);
 
-        $query_product_borrow = $connection->query("SELECT orders.id orderID, orders.userID, orders.quantity, products.id productID, products.codeProduct, products.name productName, products.image, category.name categoryName, status.status FROM `orders` LEFT JOIN `products` ON orders.productID = products.id LEFT JOIN category ON products.categoryID = category.id LEFT JOIN status ON orders.statusID = status.id WHERE orders.statusID = 1 OR orders.statusID = 2 AND orders.userID = '$id'");
+        $query_product_borrow = $connection->query("SELECT orders.id orderID, orders.userID, orders.quantity, products.id productID, products.codeProduct, products.name productName, products.image, category.name categoryName, status.status, a.name as className, student.nisn, staff.npsn  FROM `orders` LEFT JOIN `products` ON orders.productID = products.id LEFT JOIN category ON products.categoryID = category.id LEFT JOIN status ON orders.statusID = status.id LEFT JOIN student ON orders.userID = student.user_id LEFT JOIN staff ON orders.userID = staff.user_id LEFT JOIN class a ON a.id = student.class_id WHERE orders.statusID = 1 OR orders.statusID = 2 AND orders.userID = '$id' ORDER BY orders.quantity ASC");
 
         $arr_query_product_borrow = [];
 
@@ -24,16 +24,16 @@ try {
 
             echo response('success', [
                 'id' => $user['id'],
-                'nip' => $user['nip'],
+                'nip' => $user['nisn'] ?? $user['npsn'] ?? '',
                 'name' => $user['name'],
                 'phone' => $user['phone'],
                 'email' => $user['email'],
                 'status' => $user['status'],
                 'createdAt' => $user['createdAt'],
-                'roleID' => $user['roleID'],
+                'roleID' => $user['role_id'],
                 'roleName' => $user['roleName'],
-                'schoolID' => $user['schoolID'],
-                'schoolName' => $user['schoolName'],
+                // 'schoolID' => $user['schoolID'],
+                'className' => $user['className'],
                 'data_product' => $arr_query_product_borrow
             ]);
         } else {

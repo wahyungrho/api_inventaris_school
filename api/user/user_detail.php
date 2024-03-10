@@ -14,16 +14,18 @@ try {
 
       echo response('success', [
         'id' => $user['id'],
-        'nip' => $user['nip'],
-        'name' => $user['name'],
-        'phone' => $user['phone'],
-        'email' => $user['email'],
-        'status' => $user['status'],
-        'createdAt' => $user['createdAt'],
-        'roleID' => $user['roleID'],
+        'roleID' => $user['role_id'],
         'roleName' => $user['roleName'],
-        'schoolID' => $user['schoolID'],
-        'schoolName' => $user['schoolName']
+        'data' => [
+          'npsn' => $user['npsn'],
+          'nisn' => $user['nisn'],
+          'name' => $user['name'],
+          'phone' => $user['phone'],
+          'email' => $user['email'],
+          'status' => $user['status'],
+          'createdAt' => $user['createdAt'],
+          'className' => $user['className'],
+        ]
       ]);
     } else {
       echo response('error', 'ID user tidak ditemukan');
