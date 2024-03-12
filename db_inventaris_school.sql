@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 10, 2024 at 09:47 PM
+-- Generation Time: Mar 12, 2024 at 06:15 AM
 -- Server version: 11.3.2-MariaDB
 -- PHP Version: 8.1.10
 
@@ -101,6 +101,7 @@ CREATE TABLE `products` (
   `image` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `stock` varchar(255) DEFAULT NULL,
+  `semester` varchar(255) DEFAULT NULL,
   `status` enum('MENUNGGU','AKTIF','TIDAK_AKTIF') DEFAULT NULL,
   `createdBy` int(11) NOT NULL,
   `createdAt` datetime DEFAULT NULL
@@ -110,10 +111,12 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `categoryID`, `codeProduct`, `name`, `image`, `description`, `stock`, `status`, `createdBy`, `createdAt`) VALUES
-(1, 1, 'BUKU01', 'BUKU BAHASA MANDARIN', '08032024164519_BUKU_BAHASA_MANDARIN.jpg', 'Buku ini mengandung pembelajaran bahasa mandarin', '10', 'AKTIF', 2, '2024-03-08 23:45:19'),
-(2, 2, 'PUL01', 'PULPEN FASTER', '08032024182712_PULPEN_FASTER.jpg', 'Menulis cepat dengan pulpen faster', '26', 'AKTIF', 1, '2024-03-09 01:27:12'),
-(3, 1, 'BUK02', 'BUKU PECINTA ALAM', '08032024184612_BUKU_PECINTA_ALAM.webp', 'Menghilangkan fikiran stres', '16', 'MENUNGGU', 2, '2024-03-09 01:46:12');
+INSERT INTO `products` (`id`, `categoryID`, `codeProduct`, `name`, `image`, `description`, `stock`, `semester`, `status`, `createdBy`, `createdAt`) VALUES
+(1, 1, 'BUKU01', 'BUKU BAHASA MANDARIN', '08032024164519_BUKU_BAHASA_MANDARIN.jpg', 'Buku ini mengandung pembelajaran bahasa mandarin', '10', NULL, 'AKTIF', 2, '2024-03-08 23:45:19'),
+(2, 2, 'PUL01', 'PULPEN FASTER', '08032024182712_PULPEN_FASTER.jpg', 'Menulis cepat dengan pulpen faster', '26', NULL, 'AKTIF', 1, '2024-03-09 01:27:12'),
+(3, 1, 'BUK02', 'BUKU PECINTA ALAM', '08032024184612_BUKU_PECINTA_ALAM.webp', 'Menghilangkan fikiran stres', '16', NULL, 'MENUNGGU', 2, '2024-03-09 01:46:12'),
+(4, 2, 'PUL2829', 'PULPEN AJAIB', '12032024044331_PULPEN_AJAIB.jpg', 'Pulpen Ajaib banget ni', '25', 'Gasal', 'AKTIF', 1, '2024-03-12 11:43:31'),
+(5, 1, 'BUK002', 'BUKU JEPANG', '12032024045044_BUKU_JEPANG.webp', 'Buku jepamg bagus nij', '15', 'Genap', 'MENUNGGU', 2, '2024-03-12 11:50:44');
 
 -- --------------------------------------------------------
 
@@ -309,7 +312,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `roles`
