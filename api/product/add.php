@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description      = isset($_POST['description']) ? htmlspecialchars($_POST['description']) : "";
     $stock            = isset($_POST['stock']) ? htmlspecialchars($_POST['stock']) : "";
     $userID           = isset($_POST['userID']) ? htmlspecialchars($_POST['userID']) : "";
+    $semester         = isset($_POST['semester']) ? htmlspecialchars($_POST['semester']) : "";
 
     if ($userID == '') {
       echo response('error', 'ID user tidak ditemukan');
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //code...
         $connection->begin_transaction();
         $status = $roleName == 'STAFF' ? 'MENUNGGU' : 'AKTIF';
-        $insert = $connection->query("INSERT INTO products (categoryID, codeProduct, name, image, description, stock, status, createdBy, createdAt) VALUES ('$categoryID', '$codeProduct', '$name', '$image', '$description', '$stock', '$status', '$userID', NOW())");
+        $insert = $connection->query("INSERT INTO products (categoryID, codeProduct, name, image, description, stock, semester, status, createdBy, createdAt) VALUES ('$categoryID', '$codeProduct', '$name', '$image', '$description', '$stock','$semester', '$status', '$userID', NOW())");
 
         if (!$connection->error) {
           # code...

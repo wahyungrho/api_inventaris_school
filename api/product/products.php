@@ -5,34 +5,49 @@ require '../../helpers/query_function.php';
 
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 $isPengajuan = isset($_GET['isPengajuan']) ? $_GET['isPengajuan'] : ''; // "0" or "1"
+$semester = isset($_GET['semester']) ? $_GET['semester'] : '';
 
-function inventarisFunction($category, $connection)
+function inventarisFunction($category, $connection, $semester)
 {
   if ($category == '') {
     $query = $connection->query("SELECT products.*, users.name as createdName FROM products LEFT JOIN users ON products.createdBy = users.id WHERE products.status = 'AKTIF' ORDER BY products.createdAt DESC");
+    if ($semester != '') {
+      $query = $connection->query("SELECT products.*, users.name as createdName FROM products LEFT JOIN users ON products.createdBy = users.id WHERE products.status = 'AKTIF'  && products.semester = '$semester' ORDER BY products.createdAt DESC");
+    }
   } else {
 
     $query = $connection->query("SELECT products.*, users.name as createdName FROM products LEFT JOIN users ON products.createdBy = users.id WHERE products.categoryID = '$category' && products.status = 'AKTIF' ORDER BY products.createdAt DESC");
+
+    if ($semester != '') {
+      $query = $connection->query("SELECT products.*, users.name as createdName FROM products LEFT JOIN users ON products.createdBy = users.id WHERE products.categoryID = '$category' && products.status = 'AKTIF' && products.semester = '$semester' ORDER BY products.createdAt DESC");
+    }
   }
 
   return $query;
 }
 
-function pengajuanFunction($category, $connection)
+function pengajuanFunction($category, $connection, $semester)
 {
   if ($category == '') {
     $query = $connection->query("SELECT products.*, users.name as createdName FROM products LEFT JOIN users ON products.createdBy = users.id WHERE products.status = 'MENUNGGU' ORDER BY products.createdAt DESC");
+    if ($semester != '') {
+      $query = $connection->query("SELECT products.*, users.name as createdName FROM products LEFT JOIN users ON products.createdBy = users.id WHERE products.status = 'MENUNGGU' && products.semester = '$semester' ORDER BY products.createdAt DESC");
+    }
   } else {
     $query = $connection->query("SELECT products.*, users.name as createdName FROM products LEFT JOIN users ON products.createdBy = users.id WHERE products.categoryID = '$category' && products.status = 'MENUNGGU' ORDER BY products.createdAt DESC");
+
+    if ($semester != '') {
+      $query = $connection->query("SELECT products.*, users.name as createdName FROM products LEFT JOIN users ON products.createdBy = users.id WHERE products.categoryID = '$category' && products.status = 'MENUNGGU'  && products.semester = '$semester' ORDER BY products.createdAt DESC");
+    }
   }
 
   return $query;
 }
 
 if ($isPengajuan == '0' || $isPengajuan == '')
-  $query = inventarisFunction($category, $connection);
+  $query = inventarisFunction($category, $connection, $semester);
 else
-  $query = pengajuanFunction($category, $connection);
+  $query = pengajuanFunction($category, $connection, $semester);
 
 
 
@@ -48,6 +63,7 @@ foreach ($query as $key => $item) {
     'description' => $item['description'],
     'image'       => $item['image'],
     'stock'       => $item['stock'],
+    'semester'    => $item['semester'],
     'status'      => $item['status'],
     'createdBy'   => $item['createdBy'],
     'createdName' => $item['createdName'],

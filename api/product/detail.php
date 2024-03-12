@@ -17,6 +17,7 @@ if ($id != '') {
       'image' => $product['image'],
       'description' => $product['description'],
       'stock' => $product['stock'],
+      'semester' => $product['semester'],
       'status' => $product['status'],
       'createdBy' => $product['createdBy'],
       'categoryID' => $product['category_id'],

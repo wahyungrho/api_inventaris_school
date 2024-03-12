@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $name             = isset($_POST['name']) ? htmlspecialchars($_POST['name']) : "";
   $description      = isset($_POST['description']) ? htmlspecialchars($_POST['description']) : "";
   $stock            = isset($_POST['stock']) ? htmlspecialchars($_POST['stock']) : "";
+  $semester         = isset($_POST['semester']) ? htmlspecialchars($_POST['semester']) : "";
 
   $checkID = $connection->query("SELECT id, image FROM products WHERE id='$id'");
   $result  = $checkID->fetch_assoc();
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
       //code...
       $connection->begin_transaction();
-      $insert = $connection->query("UPDATE products SET categoryID='$categoryID', codeProduct='$codeProduct', name='$name', description='$description', stock='$stock' WHERE id='$id'");
+      $insert = $connection->query("UPDATE products SET categoryID='$categoryID', codeProduct='$codeProduct', name='$name', description='$description', stock='$stock', semester='$semester' WHERE id='$id'");
 
       if (!$connection->error) {
         # code...
